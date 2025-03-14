@@ -1,8 +1,13 @@
 import express from 'express';
+import { productSevice } from './product.service.js';
+import { connectDB } from '../../db/db.js';
 const router = express.Router();
+const client = await connectDB()
 
-router.get("/", (req,res)=>{
-    res.json({message : "Welcome to product route"})
-})
+const productCollection = client.db('inventory-management').collection('products')
+
+router.post('/', productSevice.addProduct)
+
+router.get('/',  productSevice.getProduct)
 
 export const productRouter = router
